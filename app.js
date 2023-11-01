@@ -55,17 +55,33 @@ app.post('/fruits', (req, res) => {
 })
 
 app.patch('/fruits/:id', (req, res) => {
-  const idx = req.params.id + 1
+  const body = req.body
+  const idx = req.params.id - 1
 
   const fruit = fruits[idx]
 
-  if (!fruit) {
+  if (!body.name) {
+    res.status(422).send({ error: 'You need to specify the name' })
+  } else if (!fruit) {
     res.status(404).send({ error: 'cannot update missing fruit' })
   } else {
     res.status(200).send(fruit)
   }
-
-
 })
+
+app.delete('/fruits/:id', (req, res) => {
+  const idx = req.params.id - 1
+  const fruit = fruits[idx]
+
+  if (!idx) {
+    res.status(404).send({ error: `Not Found` })
+  } // else {
+  
+  
+  res.status(204).send('yesyes')
+  
+
+});
+
 
 module.exports = app
